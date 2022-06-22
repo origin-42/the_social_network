@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { reactionsSchema } = require('./Reactions')
+const reactionsSchema = require('./Reactions')
 
 const thoughtsSchema = new Schema(
     {
@@ -18,7 +18,13 @@ const thoughtsSchema = new Schema(
             type: String,
             required: true
         },
-        reactions: [reactionsSchema]
+        reactions: [reactionsSchema],
+        user: [
+            {
+              type: Schema.Types.ObjectId,
+              ref: 'users',
+            },
+        ],
     },
     {
         timestamps: true,
