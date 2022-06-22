@@ -1,0 +1,24 @@
+{
+  "name": "develop",
+  "version": "1.0.0",
+  "description": "Share you thoughts and ideas with others.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/origin-42/the_social_network.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/origin-42/the_social_network/issues"
+  },
+  "homepage": "https://github.com/origin-42/the_social_network#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.4.0"
+  }
+}
