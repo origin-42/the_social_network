@@ -1,12 +1,11 @@
 const router = require('express').Router();
 
-const {  } = require('../../controllers/usersController')
+const { getUsers } = require('../../controllers/usersController')
 
 // /api/users
 router.route('/')
-    // `GET` all users
     // `GET` a single user by its `_id` and populated thought and friend data
-    .get()
+    .get(getUsers)
     // `POST` a new user:
     .post()
     // `PUT` to update a user by its `_id`
