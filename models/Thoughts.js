@@ -32,10 +32,15 @@ const thoughtsSchema = new Schema(
     }
 )
 
-thoughtsSchema.virtual('reactionCount').get(function() {
-    return this.reactions.length
-})
+thoughtsSchema
+    .virtual('reactionCount')
+    .get(function() {
+        return this.reactions.length
+    })
 
 const Thoughts = model('thoughts', thoughtsSchema);
 
-module.exports = Thoughts
+module.exports = {
+    Thoughts,
+    thoughtsSchema
+}

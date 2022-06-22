@@ -1,5 +1,6 @@
 const connection = require('../config/connection');
-const { Users, Thoughts } = require('../models');
+const { Users } = require('../models/Users');
+const { Thoughts } = require('../models/Thoughts');
 const { usernames, emails, generateThoughts, generateReactions } = require('./data');
 
 connection.on('error', (err) => err);
@@ -18,9 +19,28 @@ connection.once('open', async () => {
 
      // Loop 20 times -- add users to the users collection
     for (let i = 0; i < 20; i++) {
-        const thoughts = generateThoughts();
-
+        const thoughtsData = generateThoughts();
+        const thoughts = [];
         const username = usernames[i];
+
+        for (let j = 0; j < thoughtsData.length; j++) {
+            const reactionsData = generateReactions();
+            const reactions = [];
+
+            for (let k = 0; k < reactionsData.length; k++) {
+                reactions.push({
+                    reactionBody: reactionsData[k],
+                    username
+                })
+            }
+
+            thoughts.push({
+                thoughtText: thoughtsData[j],
+                username,
+                reactions
+            })
+        }
+        
         const email = emails[i];
 
         users.push({
@@ -31,7 +51,6 @@ connection.once('open', async () => {
     }
 
     await Users.collection.insertMany(users);
-
 
     console.table(users);
     console.info('Seeding complete! 🌱');

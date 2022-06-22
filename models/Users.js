@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const Thoughts = require('./Thoughts')
+const { thoughtsSchema } = require('./Thoughts')
 
 const userSchema = new Schema(
     {
@@ -16,7 +16,7 @@ const userSchema = new Schema(
             required: true,
             match: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/
         },
-        thoughts: [Thoughts],
+        thoughts: [thoughtsSchema],
         friends: [this]
     },
     {
@@ -33,4 +33,6 @@ userSchema.virtual('friendCount').get(function() {
 
 const Users = model('users', userSchema);
 
-module.exports = Users;
+module.exports = {
+    Users
+};
