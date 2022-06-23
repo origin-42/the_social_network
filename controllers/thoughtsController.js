@@ -76,5 +76,23 @@ module.exports = {
             res.status(500).json({ message: "Server error", body: err })
         }
         
+    },
+    // PUT '/api/thoughts'
+    async updateThought(req, res) {
+
+        try {
+
+        const { thoughtText, username, thoughtId } = req.body
+        const thoughtUpdate = await Thoughts.findOneAndUpdate({ _id: thoughtId }, { thoughtText, username }, { runValidators: true, new: true })
+
+        !thoughtUpdate ?
+            res.status(400).json({ message: "Unable to update thought", thought: thoughtUpdate }) :
+            res.status(201).json({ message: "Thought updated", thought: thoughtUpdate })
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: "Server error", body: err })
+        }
+        
     }
 }
