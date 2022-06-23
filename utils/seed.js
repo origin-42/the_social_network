@@ -54,7 +54,7 @@ connection.once('open', async () => {
         thoughts
         });
     }
-
+    
     await Users.collection.insertMany(users);
 
     console.table(users);

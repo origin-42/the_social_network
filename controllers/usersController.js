@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongoose').Types;
-const { Users } = require('../models/Users');
+const { Users, Thoughts } = require('../models/Users');
 
 module.exports = {
     // GET '/api/users'
@@ -86,6 +86,50 @@ module.exports = {
             res.status(201).json({ message: "User updated!", body: userUpdate })
 
         } catch (err) {
+            res.status(500).json({ message: "Server error", body: err })
+        }
+
+    },
+    // DELETE '/api/users/:userId'
+    async deleteUser(req, res) {
+
+        try {
+        
+        const { userId } = req.params
+        const { username } = req.body
+        
+        const userToRemove = await Users.findOneAndRemove({ _id: userId })
+
+        !userToRemove ? 
+            res.status(400).json({ message: "Couldn't remove user", body: userToRemove }) : 
+            res.status(204).json({ message: "User removed!", body: userToRemove })
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: "Server error", body: err })
+        }
+
+    },
+    // DELETE '/api/users/:userId/friends/:friendId'
+    async deleteFriend(req, res) {
+
+        try {
+
+        const { userId, friendId } = req.params
+        
+        const removeFriend = await Users.findOneAndUpdate({ _id: userId }, { $pull: { friends: friendId } }, { new: true });
+
+        const notFriends = await Users.findOneAndUpdate({ _id: friendId }, { $pull: { friends: userId } }, { new: true });
+
+        if (!notFriends) 
+            res.status(400).json({ message: "Couldn't remove friend", body: notFriends })
+
+        !removeFriend ? 
+            res.status(400).json({ message: "Couldn't remove friend", body: removeFriend }) : 
+            res.status(200).json({ message: "Unfriended successfully", body: removeFriend })
+
+        } catch (err) {
+            console.log(err)
             res.status(500).json({ message: "Server error", body: err })
         }
 

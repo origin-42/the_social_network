@@ -94,5 +94,49 @@ module.exports = {
             res.status(500).json({ message: "Server error", body: err })
         }
         
+    },
+    // DELETE '/api/thoughts/:thoughtId'
+    async deleteThought(req, res) {
+
+        try {
+
+        const { thoughtId } = req.params
+        const { username } = req.body
+
+        const thoughtToRemove = await Thoughts.findOneAndRemove({ _id: thoughtId }, { new: true })
+// Not working - updateUser
+        const updateUser = await Users.findOneAndUpdate({ username }, { $pull: { thoughts: username } }, { new: true });
+
+        if (!thoughtToRemove)
+            res.status(400).json({ message: "Unable to remove thought", thought: updateUser })
+
+        !updateUser ?
+            res.status(400).json({ message: "Unable to remove thought", thought: thoughtToRemove }) :
+            res.status(200).json({ message: "Thought removed successfully", thought: thoughtToRemove })
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: "Server error", body: err })
+        }
+        
+    },
+    // DELETE '/api/thoughts/:thoughtId/reactions/:reactionId'
+    async deleteReaction(req, res) {
+
+        try {
+
+        const { thoughtId, reactionId } = req.params
+// Unable to remove reaction. Although returns successful
+        const removeReaction = await Thoughts.findOneAndUpdate({ _id: thoughtId }, { $pull: { reactions: reactionId } }, { new: true });
+        
+        !removeReaction ?
+            res.status(400).json({ message: "Unable to remove reaction", thought: removeReaction }) :
+            res.status(200).json({ message: "Reaction removed successfully", thought: removeReaction })
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ message: "Server error", body: err })
+        }
+        
     }
 }
