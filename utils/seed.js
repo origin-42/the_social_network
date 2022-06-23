@@ -39,6 +39,11 @@ connection.once('open', async () => {
                 username,
                 reactions
             })
+            await Thoughts.create({
+                thoughtText: thoughtsData[j],
+                username,
+                reactions
+            })
         }
         
         const email = emails[i];

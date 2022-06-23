@@ -1,10 +1,9 @@
 const router = require('express').Router();
 
-const { getUsers } = require('../../controllers/usersController')
+const { getUsers, getSpecificUser } = require('../../controllers/usersController')
 
 // /api/users
 router.route('/')
-    // `GET` a single user by its `_id` and populated thought and friend data
     .get(getUsers)
     // `POST` a new user:
     .post()
@@ -13,6 +12,10 @@ router.route('/')
     // `DELETE` to remove user by its `_id`
     // **BONUS**: Remove a user's associated thoughts when deleted.
     .delete()
+
+// /api/users/:userId
+router.route('/:userId')
+    .get(getSpecificUser)
 
 // /api/users/:userId/friends/:friendId
 router.route('/:userId/friends/:friendId')
