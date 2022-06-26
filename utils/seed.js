@@ -15,7 +15,7 @@ connection.once('open', async () => {
     await Users.deleteMany({});
 
     // Create empty array to hold the users
-    const users = [];
+    const accounts = [];
 
      // Loop 20 times -- add users to the users collection
     for (let i = 0; i < 20; i++) {
@@ -48,16 +48,16 @@ connection.once('open', async () => {
         
         const email = emails[i];
 
-        users.push({
+        accounts.push({
         username,
         email,
         thoughts
         });
     }
     
-    await Users.collection.insertMany(users);
+    await Users.collection.insertMany(accounts);
 
-    console.table(users);
+    console.table(accounts);
     console.info('Seeding complete! 🌱');
     process.exit(0);
 });

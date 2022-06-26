@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongoose').Types;
-const { Users, Thoughts } = require('../models/Users');
+const { Users } = require('../models/Users');
+const { Thoughts } = require('../models/Thoughts');
 
 module.exports = {
     // GET '/api/users'
@@ -98,11 +99,13 @@ module.exports = {
         const { userId } = req.params
         const { username } = req.body
         
-        const userToRemove = await Users.findOneAndRemove({ _id: userId })
+        const userToRemove = await Users.findOneAndDelete({ _id: userId }, { new: true })
+
+        const removedThoughts = await Thoughts.deleteMany({ username })
 
         !userToRemove ? 
             res.status(400).json({ message: "Couldn't remove user", body: userToRemove }) : 
-            res.status(204).json({ message: "User removed!", body: userToRemove })
+            res.status(204).json({ message: "User removed!", body: userToRemove, thoughts: removedThoughts })
 
         } catch (err) {
             console.log(err)
