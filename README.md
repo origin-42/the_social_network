@@ -40,7 +40,7 @@ npm start
 
 The following video will direct you through how to use the application from start to finish, including installation, CRUD operations, and explanations for the flow of a typical user scenario.
 
-[![The Social Network]([undefined](https://youtu.be/Gv0uiZMSdc0))](dawdaw)
+[![The Social Network](./SN.jpg)](https://youtu.be/Gv0uiZMSdc0)
 
 ## Credits
 
